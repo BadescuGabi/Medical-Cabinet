@@ -1,4 +1,4 @@
-package meniu;
+package menu;
 
 import appointment.Appointment;
 import appointment.actions.BloodTransfusion;
