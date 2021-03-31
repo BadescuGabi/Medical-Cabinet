@@ -2,6 +2,7 @@ package medical_office;
 
 import appointment.Appointment;
 import person.*;
+import person.enums_and_salary.BloodGroup;
 import person.type.Patient;
 
 import java.util.*;
@@ -11,12 +12,12 @@ public final class MedicalOffice {
     private static MedicalOffice INSTANCE;
     private final String adress;
     private final String name;
-    public static List<Patient> vaccinatedPatients = new ArrayList<>();
+    public static List<Patient> vaccinatedPatients = new ArrayList<>(); /*todo*get list of vaccinated pacients*/
     public static HashMap<BloodGroup, Double> bloodStock = new HashMap<>();
     public static List<Appointment> appointments = new ArrayList<>();
     //public SortedSet<Doctor> doctors= new TreeSet<>();
     //public SortedSet<Nurse> nurses=new TreeSet<>();
-    public static List<Person> persons =new ArrayList<>();
+    public static List<Person> persons = new ArrayList<>();
 
     private MedicalOffice() {
         this.adress = "Splaiul Independentei 321B bloc D13 apartament 3";

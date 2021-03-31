@@ -4,6 +4,7 @@ import appointment.Appointment;
 
 import java.text.ParseException;
 import java.util.Objects;
+import java.util.Scanner;
 
 import static medical_office.MedicalOffice.vaccinatedPatients;
 
@@ -16,7 +17,9 @@ public class Vaccine extends Appointment {
     }
 
     public Vaccine() throws ParseException {
-        /*todo insert vacine atributte to pacient */
+        Scanner in = new Scanner(System.in);
+        System.out.println("\nCovid antibody");
+        this.covidAntibody = in.nextDouble();
     }
 
     public Double getCovidAntibody() {

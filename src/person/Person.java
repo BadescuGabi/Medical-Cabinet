@@ -1,13 +1,12 @@
 package person;
 
-import org.jetbrains.annotations.NotNull;
+import person.enums_and_salary.Gender;
 
 
-import java.util.Comparator;
 import java.util.Objects;
 import java.util.Scanner;
 
-public abstract class Person  {
+public abstract class Person {
     protected String name;
     protected int age;
     protected Gender gender;
@@ -20,13 +19,13 @@ public abstract class Person  {
 
     public Person() {
         System.out.println("\nNume: ");
-        Scanner in=new Scanner(System.in);
-        this.name=in.nextLine();
+        Scanner in = new Scanner(System.in);
+        this.name = in.nextLine();
         System.out.println("\nAge: ");
-        this.age=in.nextInt();
+        this.age = in.nextInt();
         System.out.println("\nGender (MALE/FEMALE/OTHER): ");
         String s = in.next();
-        this.gender= Gender.valueOf(s.toUpperCase());
+        this.gender = Gender.valueOf(s.toUpperCase());
     }
 
     public String getName() {

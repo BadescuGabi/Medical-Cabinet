@@ -1,13 +1,12 @@
 package person.type;
 
 import org.jetbrains.annotations.NotNull;
-import person.Gender;
+import person.enums_and_salary.Gender;
 import person.Person;
-import person.Salary;
-import person.Specialization;
+import person.enums_and_salary.Salary;
+import person.enums_and_salary.Specialization;
 
 import java.util.Comparator;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -84,7 +83,7 @@ public class Doctor extends Person implements Salary, Comparable<Doctor> {
                 salaryPerMonth = 1350;
             }
         }
-        return 0;
+        return salaryPerMonth;
     }
 
     @Override

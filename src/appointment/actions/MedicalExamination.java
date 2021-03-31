@@ -21,7 +21,7 @@ public class MedicalExamination extends Appointment {
     }
 
     public MedicalExamination() throws ParseException {
-        Scanner in=new Scanner(System.in);
+        Scanner in = new Scanner(System.in);
         System.out.println("\nDescription ");
         this.description = in.nextLine();
 
@@ -75,7 +75,7 @@ public class MedicalExamination extends Appointment {
         } else if ((BMI > 27 && patient.getGender().equals("MALE")) || (BMI >= 35 && patient.getGender().equals("FEMALE"))) {
             info = "overweight";
         }
-        this.results=new Pair<>(info,BMI);
+        this.results = new Pair<>(info, BMI);
         return results;
     }
 }

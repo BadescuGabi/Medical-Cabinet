@@ -19,9 +19,9 @@ public class Ultrasound extends Appointment {
     public Ultrasound() throws ParseException {
         super();
         System.out.println("\nHas referal? Y/N");
-        Scanner in=new Scanner(System.in);
-        String s= in.nextLine();
-        this.referral= !s.equalsIgnoreCase("y");
+        Scanner in = new Scanner(System.in);
+        String s = in.nextLine();
+        this.referral = !s.equalsIgnoreCase("y");
 
     }
 

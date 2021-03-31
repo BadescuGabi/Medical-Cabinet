@@ -1,8 +1,8 @@
 package person.type;
 
 import org.jetbrains.annotations.NotNull;
-import person.BloodGroup;
-import person.Gender;
+import person.enums_and_salary.BloodGroup;
+import person.enums_and_salary.Gender;
 import person.Person;
 
 import java.util.Comparator;
@@ -16,12 +16,12 @@ public class Patient extends Person implements Comparable<Patient> {
     private static int patientsCount;
     private int donate;
 
-    public Patient(String name, int age, Gender gender, BloodGroup bloodGroup, double height, double weight,int donate) {
+    public Patient(String name, int age, Gender gender, BloodGroup bloodGroup, double height, double weight, int donate) {
         super(name, age, gender);
         this.bloodGroup = bloodGroup;
         this.height = height;
         this.weight = weight;
-        this.donate=0;
+        this.donate = 0;
         patientsCount += 1;
     }
 
@@ -29,7 +29,7 @@ public class Patient extends Person implements Comparable<Patient> {
         System.out.println("\nBlood group (ZERO/A/B/AB): ");
         Scanner in = new Scanner(System.in);
         String s = in.next();
-        this.bloodGroup= BloodGroup.valueOf(s.toUpperCase());
+        this.bloodGroup = BloodGroup.valueOf(s.toUpperCase());
         System.out.println("\nHeight (cm): ");
         this.height = in.nextDouble();
         System.out.println("\nWeight (kg): ");
@@ -54,6 +54,11 @@ public class Patient extends Person implements Comparable<Patient> {
 
     public double getWeight() {
         return weight;
+    }
+
+    public Patient setDonate(int donate) {
+        this.donate = donate;
+        return this;
     }
 
     public static int getPatientsCount() {
@@ -94,7 +99,8 @@ public class Patient extends Person implements Comparable<Patient> {
 
     @Override
     public int compareTo(@NotNull Patient o) {
-        return Comparator.comparing(Patient::getName)
+        return Comparator.comparing(Patient::getDonate).reversed()
+                .thenComparing(Patient::getName)
                 .thenComparingInt((Patient::getAge)).reversed()
                 .compare(this, o);
     }

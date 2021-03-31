@@ -5,9 +5,9 @@ import appointment.actions.BloodTransfusion;
 import appointment.actions.MedicalExamination;
 import appointment.actions.Ultrasound;
 import appointment.actions.Vaccine;
-import medical_office.*;
-import person.BloodGroup;
+import person.enums_and_salary.BloodGroup;
 import person.Person;
+import person.criteria.PersonTypeCriteria;
 import person.type.Doctor;
 import person.type.Nurse;
 import person.type.Patient;
@@ -79,26 +79,26 @@ public final class Service {
                     Appointment p = new MedicalExamination();
                     appointments.add(p);
                 }
-                if (option2.equalsIgnoreCase("ultrasound")) {
+                if (option2.equals("ultrasound")) {
                     Appointment p = new Ultrasound();
                     appointments.add(p);
                 }
-                if (option2.equalsIgnoreCase("vaccine")) {
+                if (option2.equals("vaccine")) {
                     Appointment p = new Vaccine();
                     appointments.add(p);
                 }
             }
-            if (option.equalsIgnoreCase("3")) {
+            if (option.equals("3")) {
                 for (Person p : persons) {
                     System.out.println(p.toString());
                 }
             }
-            if (option.equalsIgnoreCase("4")) {
+            if (option.equals("4")) {
                 for (Appointment p : appointments) {
                     System.out.println(p.toString());
                 }
             }
-            if (option.equalsIgnoreCase("5")) {
+            if (option.equals("5")) {
                 Double avg = 0.0;
 
                 for (Appointment p : appointments) {
@@ -108,10 +108,67 @@ public final class Service {
                 }
                 System.out.println("\nAverage BMI of patients: " + avg);
             }
-            if (option.equalsIgnoreCase("6")) {
+            if (option.equals("6")) {
                 for (Map.Entry mapElement : bloodStock.entrySet()) {
                     System.out.println("\nBlood Group: " + (BloodGroup) mapElement.getKey());
                     System.out.println("\nQuantity" + (Double) mapElement.getValue() + "\n");
+                }
+            }
+            if (option.equals("7")) {
+                PersonTypeCriteria d = new PersonTypeCriteria<Patient, Person>(Patient.class); //returneaza pacientii din lista de persoane
+                List<Patient> patients = d.meetCriteria(persons);
+                int maxDonations = 0;
+                patients.sort(Patient::compareTo);
+                for (Patient i : patients) {
+                    if (maxDonations < i.getDonate()) {
+                        maxDonations = i.getDonate();
+                    }
+                    if (maxDonations == i.getDonate()) {
+                        System.out.println(i);
+                    }
+                    if (maxDonations > i.getDonate()) {
+                        break;
+                    }
+                }
+            }
+
+            if (option.equals("8")) {
+                for (int i = 0; i < persons.size(); i++) {
+                    if (persons.get(i).getClass() == Patient.class) {
+                        if (((Patient) persons).getDonate() == 0) {
+                            persons.remove(i);
+                            i--;
+                        }
+                    }
+                }
+            }
+            if (option.equals("9")) {
+                int totalSalary = 0;
+                PersonTypeCriteria d = new PersonTypeCriteria<Doctor, Person>(Doctor.class);
+                PersonTypeCriteria d1 = new PersonTypeCriteria<Nurse, Person>(Nurse.class);
+                List<Doctor> doctors = d.meetCriteria(persons);
+                List<Nurse> nurses = d1.meetCriteria(persons);
+                for (Doctor i : doctors) {
+                    totalSalary += i.salary();
+                }
+                for (Nurse i : nurses) {
+                    totalSalary += i.salary();
+                }
+                System.out.println("\nSalariul total" + totalSalary);
+            }
+            if (option.equals("10")) {
+                int income = 0;
+                for (Appointment i : appointments) {
+                    income += i.calculatePrice();
+                }
+            }
+            if (option.equals("11")) {
+                for (Appointment i : appointments) {
+                    if (i.getClass() == Vaccine.class) {
+                        if (((Vaccine) i).getCovidAntibody() < 6) {
+                            System.out.println(i.getPatient().toString());
+                        }
+                    }
                 }
             }
         }

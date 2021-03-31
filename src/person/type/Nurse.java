@@ -1,8 +1,8 @@
 package person.type;
 
-import person.Gender;
+import person.enums_and_salary.Gender;
 import person.Person;
-import person.Salary;
+import person.enums_and_salary.Salary;
 
 
 import java.util.Objects;
@@ -45,7 +45,7 @@ public class Nurse extends Person implements Salary {
         } else {
             this.salaryPerMonth = 650;
         }
-        return 0;
+        return salaryPerMonth;
     }
 
     @Override

@@ -1,25 +1,36 @@
 package appointment.actions;
 
 import appointment.Appointment;
-import person.BloodGroup;
+import person.enums_and_salary.BloodGroup;
 import person.type.Doctor;
 import person.type.Nurse;
 import person.type.Patient;
 
 import java.text.ParseException;
 import java.util.Objects;
+import java.util.Scanner;
 
 import static medical_office.MedicalOffice.bloodStock;
+import static medical_office.MedicalOffice.persons;
 
 public class BloodTransfusion extends Appointment {
     private Nurse nurse;
+
     public BloodTransfusion(String date, Patient patient, Doctor doctor, int price, int duration, Nurse nurse) throws ParseException {
         super(date, patient, doctor, price, duration);
         this.nurse = nurse;
     }
 
     public BloodTransfusion() throws ParseException {
-        /*todo nurse*/
+        System.out.println("\nChoose nurse by corresponding index:\n");
+        for (int i = 0; i < persons.size(); i++) {
+            if (persons.get(i).getClass() == Nurse.class) {
+                System.out.println(i + ":\n" + ((Nurse) persons.get(i)).toString());
+            }
+        }
+        Scanner in = new Scanner(System.in);
+        int op = in.nextInt();
+        setNurse((Nurse) persons.get(op));
     }
 
     public Nurse getNurse() {
@@ -75,9 +86,10 @@ public class BloodTransfusion extends Appointment {
         if (patient.getBloodGroup().equals(BloodGroup.AB)) {//posibil sa fie nevoie de ==
             bloodStock.put(BloodGroup.AB, (bloodStock.get(BloodGroup.AB) + 0.5));
         }
+        patient.setDonate(patient.getDonate() + 1);
     }
 
-    public void receive(){
+    public void receive() {
         if (patient.getBloodGroup().equals(BloodGroup.ZERO)) {//posibil sa fie nevoie de ==
             bloodStock.put(BloodGroup.ZERO, (bloodStock.get(BloodGroup.ZERO) - 0.5));
             bloodStock.put(BloodGroup.A, (bloodStock.get(BloodGroup.A) - 0.5));
@@ -96,6 +108,6 @@ public class BloodTransfusion extends Appointment {
             bloodStock.put(BloodGroup.AB, (bloodStock.get(BloodGroup.AB) - 0.5));
         }
     }
-        /* vezi si abstract factory pattern */
-    }
+    /* todo vezi si abstract factory pattern */
+}
 
