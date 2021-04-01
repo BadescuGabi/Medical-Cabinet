@@ -21,7 +21,7 @@ public class Patient extends Person implements Comparable<Patient> {
         this.bloodGroup = bloodGroup;
         this.height = height;
         this.weight = weight;
-        this.donate = 0;
+        this.donate = donate;
         patientsCount += 1;
     }
 
@@ -99,7 +99,7 @@ public class Patient extends Person implements Comparable<Patient> {
 
     @Override
     public int compareTo(@NotNull Patient o) {
-        return Comparator.comparing(Patient::getDonate).reversed()
+        return Comparator.comparing(Patient::getDonate)
                 .thenComparing(Patient::getName)
                 .thenComparingInt((Patient::getAge)).reversed()
                 .compare(this, o);

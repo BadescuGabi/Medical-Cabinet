@@ -5,9 +5,12 @@ import appointment.actions.BloodTransfusion;
 import appointment.actions.MedicalExamination;
 import appointment.actions.Ultrasound;
 import appointment.actions.Vaccine;
+import medical_office.MedicalOffice;
 import person.enums_and_salary.BloodGroup;
 import person.Person;
 import person.criteria.PersonTypeCriteria;
+import person.enums_and_salary.Gender;
+import person.enums_and_salary.Specialization;
 import person.type.Doctor;
 import person.type.Nurse;
 import person.type.Patient;
@@ -33,7 +36,17 @@ public final class Service {
     }
 
     public static void menu() throws ParseException {
-
+        Patient berti=new Patient("Berti",23, Gender.MALE,BloodGroup.B,176,90,6);
+        Patient dan=new Patient("Dan",43,Gender.MALE,BloodGroup.A,180,68,0);
+        Patient alex=new Patient("Alex",21,Gender.MALE,BloodGroup.B,187,77,1);
+        Doctor andrei=new Doctor("Andrei",33,Gender.MALE,3, Specialization.BLOOD_ANALYSIS);
+        Nurse ioana=new Nurse("Ioana",23,Gender.FEMALE,3);
+        persons.add(berti);
+        persons.add(dan);
+        persons.add(alex);
+        persons.add(andrei);
+        persons.add(ioana);
+        MedicalOffice.initializeMap();
         String option = "";
         while (!option.equals("0")) {
             System.out.println("           Welcome to our medical office");
@@ -79,11 +92,11 @@ public final class Service {
                     Appointment p = new MedicalExamination();
                     appointments.add(p);
                 }
-                if (option2.equals("ultrasound")) {
+                if (option2.equalsIgnoreCase("ultrasound")) {
                     Appointment p = new Ultrasound();
                     appointments.add(p);
                 }
-                if (option2.equals("vaccine")) {
+                if (option2.equalsIgnoreCase("vaccine")) {
                     Appointment p = new Vaccine();
                     appointments.add(p);
                 }
@@ -135,7 +148,7 @@ public final class Service {
             if (option.equals("8")) {
                 for (int i = 0; i < persons.size(); i++) {
                     if (persons.get(i).getClass() == Patient.class) {
-                        if (((Patient) persons).getDonate() == 0) {
+                        if (((Patient) persons.get(i)).getDonate() == 0) {
                             persons.remove(i);
                             i--;
                         }
@@ -161,6 +174,7 @@ public final class Service {
                 for (Appointment i : appointments) {
                     income += i.calculatePrice();
                 }
+                System.out.println(income);
             }
             if (option.equals("11")) {
                 for (Appointment i : appointments) {

@@ -31,6 +31,15 @@ public class BloodTransfusion extends Appointment {
         Scanner in = new Scanner(System.in);
         int op = in.nextInt();
         setNurse((Nurse) persons.get(op));
+        System.out.println("\ndonnation/receive?");
+        String s ="";
+        s=in.next();
+        if (s.equalsIgnoreCase("donnation")){
+            donnation();;
+        }
+        if(s.equalsIgnoreCase("receive")){
+            receive();
+        }
     }
 
     public Nurse getNurse() {
@@ -69,6 +78,7 @@ public class BloodTransfusion extends Appointment {
     }
 
     public void donnation() {
+
         if (patient.getBloodGroup().equals(BloodGroup.ZERO)) {//posibil sa fie nevoie de ==
             bloodStock.put(BloodGroup.ZERO, (bloodStock.get(BloodGroup.ZERO) + 0.5));
             bloodStock.put(BloodGroup.A, (bloodStock.get(BloodGroup.A) + 0.5));
@@ -108,6 +118,6 @@ public class BloodTransfusion extends Appointment {
             bloodStock.put(BloodGroup.AB, (bloodStock.get(BloodGroup.AB) - 0.5));
         }
     }
-    /* todo vezi si abstract factory pattern */
+    /* todo vezi si abstract factory pattern si try catch pt receive*/
 }
 

@@ -36,6 +36,13 @@ public final class MedicalOffice {
         return INSTANCE;
     }
 
+    public static void initializeMap(){
+            bloodStock.put(BloodGroup.B,0.0);
+            bloodStock.put(BloodGroup.ZERO,0.0);
+            bloodStock.put(BloodGroup.A,0.0);
+            bloodStock.put(BloodGroup.AB,0.0);
+    }
+
     public String getAdress() {
         return adress;
     }
