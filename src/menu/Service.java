@@ -36,7 +36,7 @@ public final class Service {
     }
 
     public static void menu() throws ParseException {
-        Patient berti=new Patient("Berti",23, Gender.MALE,BloodGroup.B,176,90,6);
+        Patient berti=new Patient("Berti",24, Gender.MALE,BloodGroup.B,176,90,6);
         Patient dan=new Patient("Dan",43,Gender.MALE,BloodGroup.A,180,68,0);
         Patient alex=new Patient("Alex",21,Gender.MALE,BloodGroup.B,187,77,1);
         Doctor andrei=new Doctor("Andrei",33,Gender.MALE,3, Specialization.BLOOD_ANALYSIS);
