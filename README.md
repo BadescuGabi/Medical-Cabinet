@@ -14,7 +14,7 @@ They are stored in lists and hashmaps.
     * **Patient**
     * **Doctor** 
     * **Nurse**
-<br/>
+
 * **PersonTypeCriteria** is a generic class and implements interface **Criteria** and it's used for returning a specific type of list (with doctors,persons or nurses) 
 
 * **Appointment** (Abstract class) and has abstract method for calculating price and inheritance the following classes:
