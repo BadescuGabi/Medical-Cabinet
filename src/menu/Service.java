@@ -1,28 +1,27 @@
 package menu;
 
-import appointment.Appointment;
 import appointment.actions.BloodTransfusion;
 import appointment.actions.MedicalExamination;
 import appointment.actions.Ultrasound;
 import appointment.actions.Vaccine;
-import medical_office.MedicalOffice;
 import person.enums_and_salary.BloodGroup;
-import person.Person;
-import person.criteria.PersonTypeCriteria;
 import person.enums_and_salary.Gender;
 import person.enums_and_salary.Specialization;
 import person.type.Doctor;
 import person.type.Nurse;
 import person.type.Patient;
-
-import java.text.ParseException;
-import java.util.*;
-
 import static medical_office.MedicalOffice.*;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.io.*;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class Service {
 
     private static Service service;
+    public static FileWriter fileWriter;
 
     private Service() {
     }
@@ -35,157 +34,228 @@ public final class Service {
         return service;
     }
 
-    public static void menu() throws ParseException {
-        Patient berti=new Patient("Berti",24, Gender.MALE,BloodGroup.B,176,90,6);
-        Patient dan=new Patient("Dan",43,Gender.MALE,BloodGroup.A,180,68,0);
-        Patient alex=new Patient("Alex",21,Gender.MALE,BloodGroup.B,187,77,1);
-        Doctor andrei=new Doctor("Andrei",33,Gender.MALE,3, Specialization.BLOOD_ANALYSIS);
-        Nurse ioana=new Nurse("Ioana",23,Gender.FEMALE,3);
-        persons.add(berti);
-        persons.add(dan);
-        persons.add(alex);
-        persons.add(andrei);
-        persons.add(ioana);
-        MedicalOffice.initializeMap();
-        String option = "";
-        while (!option.equals("0")) {
-            System.out.println("           Welcome to our medical office");
-            System.out.println("            ========Operations========");
-            System.out.println("1:  Add person");
-            System.out.println("2:  Add appointment");
-            System.out.println("3:  Show persons");
-            System.out.println("4:  Show appointments");
-            System.out.println("5:  Calculate average BMI of patients");
-            System.out.println("6:  Show blood stock for each blood group");
-            System.out.println("7:  Show patient with most donations");
-            System.out.println("8:  Delete patients with 0 blood donations");
-            System.out.println("9:  Calculate total salary of employees");
-            System.out.println("10: Calculate income of the cabinet");
-            System.out.println("11: Show covid vulnerable patients\n");
-            Scanner in = new Scanner(System.in);
-            option = in.nextLine();
+    public static <T> ArrayList<T> readFromCSV(String option, String path) throws IOException, ParseException {
+        BufferedReader csvReader = new BufferedReader(new FileReader(path));
+        String row;
+        ArrayList<T> obj = new ArrayList<>();
 
-            if (option.equals("1")) {
-                System.out.println("What type of person do you want to add: doctor/nurse/patient");
-                String option2 = in.nextLine();
-                if (option2.equalsIgnoreCase("doctor")) {
-                    Person p = new Doctor();
-                    persons.add(p);
+        while ((row = csvReader.readLine()) != null) {
+            String[] data = row.split(",");
+            if (option.equalsIgnoreCase("doctor") || option.equalsIgnoreCase("patient") || option.equalsIgnoreCase("nurse")) {
+                String name = data[0];
+                int age = Integer.parseInt(data[1]);
+                Gender gender = Gender.valueOf(data[2].toUpperCase());
+                if (option.equalsIgnoreCase("doctor")) {
+                    Integer exp = Integer.parseInt(data[3]);
+                    Specialization spec = Specialization.valueOf(data[4]);
+                    int id = Integer.parseInt(data[5]);
+                    Doctor doctor = new Doctor(name, age, gender, id, exp, spec);
+                    obj.add((T) doctor);
                 }
-                if (option2.equalsIgnoreCase("patient")) {
-                    Person p = new Patient();
-                    persons.add(p);
+                if (option.equalsIgnoreCase("patient")) {
+                    BloodGroup bloodGroup = BloodGroup.valueOf(data[3].toUpperCase());
+                    double height = Double.parseDouble(data[4]);
+                    double weight = Double.parseDouble(data[5]);
+                    int donate = Integer.parseInt(data[6]);
+                    int id = Integer.parseInt(data[7]);
+                    Patient patient = new Patient(name, age, gender, id, bloodGroup, height, weight, donate);
+                    obj.add((T) patient);
                 }
-                if (option2.equalsIgnoreCase("nurse")) {
-                    Person p = new Nurse();
-                    persons.add(p);
-                }
-            }
-            if (option.equals("2")) {
-                System.out.println("What type of appointment do you want to add:\n-Blood transfusion\n-Medical examination\n-Ultrasound\n-Vaccine");
-                String option2 = in.nextLine();
-                if (option2.equalsIgnoreCase("blood transfusion")) {
-                    Appointment p = new BloodTransfusion();
-                    appointments.add(p);
-                }
-                if (option2.equalsIgnoreCase("medical examination")) {
-                    Appointment p = new MedicalExamination();
-                    appointments.add(p);
-                }
-                if (option2.equalsIgnoreCase("ultrasound")) {
-                    Appointment p = new Ultrasound();
-                    appointments.add(p);
-                }
-                if (option2.equalsIgnoreCase("vaccine")) {
-                    Appointment p = new Vaccine();
-                    appointments.add(p);
+                if (option.equalsIgnoreCase("nurse")) {
+                    int exp = Integer.parseInt(data[3]);
+                    int id = Integer.parseInt(data[4]);
+                    Nurse nurse = new Nurse(name, age, gender, id, exp);
+                    obj.add((T) nurse);
                 }
             }
-            if (option.equals("3")) {
-                for (Person p : persons) {
-                    System.out.println(p.toString());
+            if (option.equalsIgnoreCase("bloodtransfusion") || option.equalsIgnoreCase("medicalexamination")
+                    || option.equalsIgnoreCase("ultrasound") || option.equalsIgnoreCase("vaccine")) {
+                String date = data[0];
+                int id = Integer.parseInt(data[1]);
+                Patient patientF = null;
+                for (Patient patient : patients)
+                    if (patient.getId() == id)
+                        patientF = new Patient(patient.getName(),patient.getAge(),patient.getGender(),patient.getId(),patient.getBloodGroup(),patient.getHeight(),patient.getWeight(),patient.getDonate());
+                id = Integer.parseInt(data[2]);
+                Doctor doctorF = null;
+                for (Doctor doctor : doctors)
+                    if (doctor.getId() == id)
+                        doctorF = doctor;
+                if (option.equalsIgnoreCase("bloodtransfusion")) {
+                    int duration = Integer.parseInt(data[3]);
+                    id = Integer.parseInt(data[4]);
+                    Nurse nurseF = null;
+                    for (Nurse nurse : nurses)
+                        if (nurse.getId() == id)
+                            nurseF = nurse;
+                    BloodTransfusion bloodTransfusion = new BloodTransfusion(date, patientF, doctorF, duration, nurseF);
+                    obj.add((T) bloodTransfusion);
                 }
-            }
-            if (option.equals("4")) {
-                for (Appointment p : appointments) {
-                    System.out.println(p.toString());
+                if (option.equalsIgnoreCase("medicalexamination")) {
+                    int duration = Integer.parseInt(data[4]);
+                    int price = Integer.parseInt(data[3]);
+                    String description = data[5];
+                    MedicalExamination medicalExamination = new MedicalExamination(date, patientF, doctorF, price, duration, description);
+                    obj.add((T) medicalExamination);
                 }
-            }
-            if (option.equals("5")) {
-                Double avg = 0.0;
-
-                for (Appointment p : appointments) {
-                    if (p.getClass() == MedicalExamination.class) {
-                        avg += ((MedicalExamination) p).calculateBMI().getSecond();
-                    }
+                if (option.equalsIgnoreCase("ultrasound")) {
+                    int duration = Integer.parseInt(data[4]);
+                    int price = Integer.parseInt(data[3]);
+                    boolean referral = Boolean.parseBoolean(data[5]);
+                    Ultrasound ultrasound = new Ultrasound(date, patientF, doctorF, price, duration, referral);
+                    obj.add((T) ultrasound);
                 }
-                System.out.println("\nAverage BMI of patients: " + avg);
-            }
-            if (option.equals("6")) {
-                for (Map.Entry mapElement : bloodStock.entrySet()) {
-                    System.out.println("\nBlood Group: " + (BloodGroup) mapElement.getKey());
-                    System.out.println("\nQuantity" + (Double) mapElement.getValue() + "\n");
-                }
-            }
-            if (option.equals("7")) {
-                PersonTypeCriteria d = new PersonTypeCriteria<Patient, Person>(Patient.class); //returneaza pacientii din lista de persoane
-                List<Patient> patients = d.meetCriteria(persons);
-                int maxDonations = 0;
-                patients.sort(Patient::compareTo);
-                for (Patient i : patients) {
-                    if (maxDonations < i.getDonate()) {
-                        maxDonations = i.getDonate();
-                    }
-                    if (maxDonations == i.getDonate()) {
-                        System.out.println(i);
-                    }
-                    if (maxDonations > i.getDonate()) {
-                        break;
-                    }
-                }
-            }
-
-            if (option.equals("8")) {
-                for (int i = 0; i < persons.size(); i++) {
-                    if (persons.get(i).getClass() == Patient.class) {
-                        if (((Patient) persons.get(i)).getDonate() == 0) {
-                            persons.remove(i);
-                            i--;
-                        }
-                    }
-                }
-            }
-            if (option.equals("9")) {
-                int totalSalary = 0;
-                PersonTypeCriteria d = new PersonTypeCriteria<Doctor, Person>(Doctor.class);
-                PersonTypeCriteria d1 = new PersonTypeCriteria<Nurse, Person>(Nurse.class);
-                List<Doctor> doctors = d.meetCriteria(persons);
-                List<Nurse> nurses = d1.meetCriteria(persons);
-                for (Doctor i : doctors) {
-                    totalSalary += i.salary();
-                }
-                for (Nurse i : nurses) {
-                    totalSalary += i.salary();
-                }
-                System.out.println("\nSalariul total" + totalSalary);
-            }
-            if (option.equals("10")) {
-                int income = 0;
-                for (Appointment i : appointments) {
-                    income += i.calculatePrice();
-                }
-                System.out.println(income);
-            }
-            if (option.equals("11")) {
-                for (Appointment i : appointments) {
-                    if (i.getClass() == Vaccine.class) {
-                        if (((Vaccine) i).getCovidAntibody() < 6) {
-                            System.out.println(i.getPatient().toString());
-                        }
-                    }
+                if (option.equalsIgnoreCase("vaccine")) {
+                    Double covidAntibody = Double.parseDouble(data[3]);
+                    Vaccine vaccine = new Vaccine(date, patientF, doctorF, covidAntibody);
+                    obj.add((T) vaccine);
                 }
             }
         }
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        writeToAudit(timestamp.toString(), "Read");
+        csvReader.close();
+        return obj;
     }
-}
 
+    public static <T> void writeToCSV(T object, String path) throws IOException {
+        File file = new File(path);
+        if (file.isFile()) {
+            if (file.length() <= 1) {
+//                FileWriter csvWriter = new FileWriter(path, true);
+//                if (object.getClass().getSimpleName().toLowerCase() == "doctor")
+//                    csvWriter.append("Name.age,gender,specialization,experience,id\n");
+//                if (object.getClass().getSimpleName().toLowerCase() == "patient")
+//                    csvWriter.append("Name.age,gender,bloodgroup,height,weight,donate,id\n");
+//                if (object.getClass().getSimpleName().toLowerCase() == "nurse")
+//                    csvWriter.append("Name.age,gender,experience,id\n");
+//                if (object.getClass().getSimpleName().toLowerCase() == "bloodtransfusion")
+//                    csvWriter.append("date,patient_id,doctor_id,duration,nurse_id\n");
+//                if (object.getClass().getSimpleName().toLowerCase() == "medicalexamination")
+//                    csvWriter.append("date,patient_id,doctor_id,price,duration,description\n");
+//                if (object.getClass().getSimpleName().toLowerCase() == "ultrasound")
+//                    csvWriter.append("date,patient_id,doctor_id,price,duration,referral\n");
+//                if (object.getClass().getSimpleName().toLowerCase() == "vaccine")
+//                    csvWriter.append("date,patient_id,doctor_id,covidantibody\n");
+//                csvWriter.close();
+            }
+            FileWriter csvWriter = new FileWriter(path, true);
+            if (object.getClass().getSimpleName().equalsIgnoreCase("doctor")) {
+                Doctor d = (Doctor) object;
+                csvWriter.append(d.getName());
+                csvWriter.append(",");
+                csvWriter.append(String.valueOf(d.getAge()));
+                csvWriter.append(",");
+                csvWriter.append(d.getGender().toString());
+                csvWriter.append(",");
+                csvWriter.append(d.getSpec().toString());
+                csvWriter.append(",");
+                csvWriter.append(String.valueOf(d.getExp()));
+                csvWriter.append(",");
+                csvWriter.append(String.valueOf(d.getId()));
+                csvWriter.append("\n");
+            }
+            if (object.getClass().getSimpleName().equalsIgnoreCase("patient")) {
+                Patient d = (Patient) object;
+                csvWriter.append(d.getName());
+                csvWriter.append(",");
+                csvWriter.append(String.valueOf(d.getAge()));
+                csvWriter.append(",");
+                csvWriter.append(d.getGender().toString());
+                csvWriter.append(",");
+                csvWriter.append(d.getBloodGroup().toString());
+                csvWriter.append(",");
+                csvWriter.append(String.valueOf(d.getHeight()));
+                csvWriter.append(",");
+                csvWriter.append(String.valueOf(d.getWeight()));
+                csvWriter.append(",");
+                csvWriter.append(String.valueOf(d.getDonate()));
+                csvWriter.append(",");
+                csvWriter.append(String.valueOf(d.getId()));
+                csvWriter.append("\n");
+            }
+            if (object.getClass().getSimpleName().equalsIgnoreCase("nurse")) {
+                Nurse d = (Nurse) object;
+                csvWriter.append(d.getName());
+                csvWriter.append(",");
+                csvWriter.append(String.valueOf(d.getAge()));
+                csvWriter.append(",");
+                csvWriter.append(d.getGender().toString());
+                csvWriter.append(",");
+                csvWriter.append(String.valueOf(d.getExp()));
+                csvWriter.append(",");
+                csvWriter.append(String.valueOf(d.getId()));
+                csvWriter.append("\n");
+            }
+            if (object.getClass().getSimpleName().equalsIgnoreCase("bloodtransfusion")) {
+                BloodTransfusion d = (BloodTransfusion) object;
+                csvWriter.append(String.valueOf(d.getDate()));
+                csvWriter.append(",");
+                csvWriter.append(String.valueOf(d.getPatient().getId()));
+                csvWriter.append(",");
+                csvWriter.append(String.valueOf(d.getDoctor().getId()));
+                csvWriter.append(",");
+                csvWriter.append(String.valueOf(d.getDuration()));
+                csvWriter.append(",");
+                csvWriter.append(String.valueOf(d.getNurse().getId()));
+                csvWriter.append("\n");
+            }
+            if (object.getClass().getSimpleName().equalsIgnoreCase("medicalexamination")) {
+                MedicalExamination d = (MedicalExamination) object;
+                csvWriter.append(String.valueOf(d.getDate()));
+                csvWriter.append(",");
+                csvWriter.append(String.valueOf(d.getPatient().getId()));
+                csvWriter.append(",");
+                csvWriter.append(String.valueOf(d.getDoctor().getId()));
+                csvWriter.append(",");
+                csvWriter.append(String.valueOf(d.getPrice()));
+                csvWriter.append(",");
+                csvWriter.append(String.valueOf(d.getDuration()));
+                csvWriter.append(",");
+                csvWriter.append(d.getDescription());
+                csvWriter.append("\n");
+            }
+            if (object.getClass().getSimpleName().equalsIgnoreCase("ultrasound")) {
+                Ultrasound d = (Ultrasound) object;
+                csvWriter.append(String.valueOf(d.getDate()));
+                csvWriter.append(",");
+                csvWriter.append(String.valueOf(d.getPatient().getId()));
+                csvWriter.append(",");
+                csvWriter.append(String.valueOf(d.getDoctor().getId()));
+                csvWriter.append(",");
+                csvWriter.append(String.valueOf(d.getPrice()));
+                csvWriter.append(",");
+                csvWriter.append(String.valueOf(d.getDuration()));
+                csvWriter.append(",");
+                csvWriter.append(String.valueOf(d.isReferral()));
+                csvWriter.append("\n");
+            }
+            if (object.getClass().getSimpleName().equalsIgnoreCase("vaccine")) {
+                Vaccine d = (Vaccine) object;
+                csvWriter.append(String.valueOf(d.getDate()));
+                csvWriter.append(",");
+                csvWriter.append(String.valueOf(d.getPatient().getId()));
+                csvWriter.append(",");
+                csvWriter.append(String.valueOf(d.getDoctor().getId()));
+                csvWriter.append(",");
+                csvWriter.append(String.valueOf(d.getCovidAntibody()));
+                csvWriter.append("\n");
+            }
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            writeToAudit(timestamp.toString(),"Write");
+            csvWriter.close();
+        }
+    }
+    public static void writeToAudit(String timestamp, String option) throws IOException{
+        File file = new File("src/audit.csv");
+        if (file.isFile()) {
+            if (file.length() <= 1) {
+                FileWriter csvWriter = new FileWriter("src/audit.csv", true);
+                csvWriter.append("Timestamp,action name\n");
+                csvWriter.close();
+            }
+            FileWriter csvWriter = new FileWriter("src/audit.csv", true);
+            csvWriter.append(timestamp  + "," + option + "\n");
+            csvWriter.close();
+        }
+}}

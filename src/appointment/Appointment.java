@@ -19,7 +19,7 @@ public abstract class Appointment {
     protected int duration;
 
     public Appointment(String date, Patient patient, Doctor doctor, int price, int duration) throws ParseException { //
-        this.date = new SimpleDateFormat("dd-MM-yyyy hh:mm").parse(date);
+        this.date = new SimpleDateFormat("dd-MM-yyyy").parse(date);
         this.patient = patient;
         this.doctor = doctor;
         this.duration = duration;
@@ -28,9 +28,9 @@ public abstract class Appointment {
 
     public Appointment() throws ParseException {
         Scanner in = new Scanner(System.in);
-        System.out.println("\nDate and hour (dd-MM-yyyy hh:mm): ");
+        System.out.println("\nDate and hour (dd-MM-yyyy): ");
         String s = in.nextLine();
-        this.date = new SimpleDateFormat("dd-MM-yyyy hh:mm").parse(s);
+        this.date = new SimpleDateFormat("dd-MM-yyyy").parse(s);
         System.out.println("\nAdd new oatient or existing one ?(1/2)");
         int op;
         op = in.nextInt();
@@ -121,4 +121,13 @@ public abstract class Appointment {
     }
 
     public abstract int calculatePrice();
+
+    public int getPrice() {
+        return price;
+    }
+
+    public Appointment setPrice(int price) {
+        this.price = price;
+        return this;
+    }
 }

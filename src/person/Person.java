@@ -10,8 +10,9 @@ public abstract class Person {
     protected String name;
     protected int age;
     protected Gender gender;
-
-    public Person(String name, int age, Gender gender) {
+    private static int count=0;
+    protected int id;
+    public Person(String name, int age, Gender gender,int id) {
         this.name = name;
         this.age = age;
         this.gender = gender;
@@ -26,6 +27,25 @@ public abstract class Person {
         System.out.println("\nGender (MALE/FEMALE/OTHER): ");
         String s = in.next();
         this.gender = Gender.valueOf(s.toUpperCase());
+        count++;
+        this.id=count;
+    }
+
+    public static int getCount() {
+        return count;
+    }
+
+    public static void setCount(int count) {
+        Person.count = count;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public Person setId(int id) {
+        this.id = id;
+        return this;
     }
 
     public String getName() {
@@ -45,8 +65,8 @@ public abstract class Person {
         this.age = age;
     }
 
-    public String getGender() {
-        return gender.toString();
+    public Gender getGender() {
+        return gender;
     }
 
     public void setGender(Gender gender) {

@@ -16,8 +16,8 @@ import static medical_office.MedicalOffice.persons;
 public class BloodTransfusion extends Appointment {
     private Nurse nurse;
 
-    public BloodTransfusion(String date, Patient patient, Doctor doctor, int price, int duration, Nurse nurse) throws ParseException {
-        super(date, patient, doctor, price, duration);
+    public BloodTransfusion(String date, Patient patient, Doctor doctor,  int duration, Nurse nurse) throws ParseException {
+        super(date, patient, doctor,0, duration);
         this.nurse = nurse;
     }
 

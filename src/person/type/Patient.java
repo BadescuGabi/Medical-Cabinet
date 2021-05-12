@@ -16,13 +16,13 @@ public class Patient extends Person implements Comparable<Patient> {
     private static int patientsCount;
     private int donate;
 
-    public Patient(String name, int age, Gender gender, BloodGroup bloodGroup, double height, double weight, int donate) {
-        super(name, age, gender);
+    public Patient(String name, int age, Gender gender,int id, BloodGroup bloodGroup, double height, double weight, int donate) {
+        super(name, age, gender,id);
         this.bloodGroup = bloodGroup;
         this.height = height;
         this.weight = weight;
         this.donate = donate;
-        patientsCount += 1;
+        this.id=id;
     }
 
     public Patient() {
@@ -35,6 +35,8 @@ public class Patient extends Person implements Comparable<Patient> {
         System.out.println("\nWeight (kg): ");
         this.weight = in.nextDouble();
     }
+
+
 
     public BloodGroup getBloodGroup() {
         return bloodGroup;

@@ -15,11 +15,12 @@ public class Doctor extends Person implements Salary, Comparable<Doctor> {
     private Specialization spec;
     private int salaryPerMonth;
 
-    public Doctor(String name, int age, Gender gender, int exp, Specialization spec) {
-        super(name, age, gender);
+    public Doctor(String name, int age, Gender gender,int id, int exp, Specialization spec) {
+        super(name, age, gender,id);
         this.exp = exp;
         this.spec = spec;
         this.salary();
+        this.id=id;
     }
 
     public Doctor() {

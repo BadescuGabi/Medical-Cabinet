@@ -1,0 +1,32 @@
+Nimara Dana,24,MALE,3,RADIOLOGIST
+Ancuta Ioana,35,FEMALE,5,BLOOD_ANALISYS
+Dabu Alexandra,49,FEMALE,1,CONSULTANT
+Bogdan Vasile,33,MALE,9,CONSULTANT
+====nurse
+Bogdan Vasile,33,MALE,9
+Badescu Ion,22,MALE,3
+Savu Andreea,45,FEMALE,1
+Mircea Ion,23,MALE,4
+===pacient
+Popa Iulian,MALE,ZERO,175,65,5
+Popa Andrei,MALE,A,180,90,3
+Berti Ioana,FEMALE.AB,176,59,,0
+Negulescu Irina,FEMALE,B,165,55,0
+==blood trans
+16-11-2020,Popa Iulian,MALE,ZERO,175,65,5,Ancuta Ioana,35,FEMALE,5,BLOOD_ANALISYS,10,Mircea Ion,23,MALE,4
+24-12-2020,Popa Andrei,MALE,A,180,90,3,Ancuta Ioana,35,FEMALE,5,BLOOD_ANALISYS,15,Savu Andreea,45,FEMALE,1
+10-11-2020,Negulescu Irina,FEMALE,B,165,55,0,Ancuta Ioana,35,FEMALE,5,BLOOD_ANALISYS,10,Savu Andreea,45,FEMALE,1
+10-10-2020 Berti Ioana,FEMALE.AB,176,59,,0,Ancuta Ioana,35,FEMALE,5,BLOOD_ANALISYS,10,Badescu Ion,22,MALE,3
+===medexam
+15-10-2020,Dabu Alexandra,49,FEMALE,1,CONSULTANT,Popa Andrei,MALE,A,180,90,3,50,20,sanatos
+12-11-2020,Bogdan Vasile,33,MALE,9,CONSULTANT,Berti Ioana,FEMALE.AB,176,59,0,40,15,consult standard
+10-10-2020,Bogdan Vasile,33,MALE,9,CONSULTANT,Negulescu Irina,FEMALE,B,165,55,0,90,30,consult+reteta
+23-10-2020,Dabu Alexandra,49,FEMALE,1,CONSULTANT,Popa Andrei,MALE,A,180,90,3,60,30,qnqlize medicale
+===ultras
+05-11-2020,Nimara Dana,24,MALE,3,RADIOLOGIST,Berti Ioana,FEMALE.AB,176,59,0,40,15,true
+09-10-2020,Nimara Dana,24,MALE,3,RADIOLOGISTT,Negulescu Irina,FEMALE,B,165,55,0,90,30,false
+25-09-2020,Nimara Dana,24,MALE,3,RADIOLOGIST,Popa Andrei,MALE,A,180,90,3,10,15,true
+03-11-2020,Nimara Dana,24,MALE,3,RADIOLOGIST,Popa Andrei,MALE,A,180,90,3,70,20,false
+===vaccine
+21-11-2020,Popa Andrei,MALE,A,180,90,3,Ancuta Ioana,35,FEMALE,5,BLOOD_ANALISYS,4
+13-11-2020,Negulescu Irina,FEMALE,B,165,55,0,Ancuta Ioana,35,FEMALE,5,BLOOD_ANALISYS,10

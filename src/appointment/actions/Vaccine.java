@@ -1,6 +1,8 @@
 package appointment.actions;
 
 import appointment.Appointment;
+import person.type.Doctor;
+import person.type.Patient;
 
 import java.text.ParseException;
 import java.util.Objects;
@@ -13,6 +15,11 @@ public class Vaccine extends Appointment {
 
     public Vaccine(Double covidAntibody) throws ParseException {
         super();
+        this.covidAntibody = covidAntibody;
+    }
+
+    public Vaccine(String date, Patient patient, Doctor doctor, Double covidAntibody) throws ParseException {
+        super(date, patient, doctor, 0, 10);
         this.covidAntibody = covidAntibody;
     }
 

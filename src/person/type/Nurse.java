@@ -12,10 +12,11 @@ public class Nurse extends Person implements Salary {
     private int exp;
     private int salaryPerMonth;
 
-    public Nurse(String name, int age, Gender gender, int exp) {
-        super(name, age, gender);
+    public Nurse(String name, int age, Gender gender,int id, int exp) {
+        super(name, age, gender,id);
         this.exp = exp;
         this.salary();
+        this.id=id;
     }
 
     public Nurse() {

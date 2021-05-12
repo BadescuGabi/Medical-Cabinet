@@ -1,10 +1,17 @@
 package medical_office;
 
 import appointment.Appointment;
+import appointment.actions.BloodTransfusion;
+import appointment.actions.MedicalExamination;
+import appointment.actions.Ultrasound;
+import appointment.actions.Vaccine;
 import person.*;
 import person.enums_and_salary.BloodGroup;
+import person.type.Doctor;
+import person.type.Nurse;
 import person.type.Patient;
 
+import java.io.FileWriter;
 import java.util.*;
 
 public final class MedicalOffice {
@@ -18,6 +25,14 @@ public final class MedicalOffice {
     //public SortedSet<Doctor> doctors= new TreeSet<>();
     //public SortedSet<Nurse> nurses=new TreeSet<>();
     public static List<Person> persons = new ArrayList<>();
+    public static List<Doctor> doctors=new ArrayList<>();
+    public static List<Patient> patients=new ArrayList<>();
+    public static List<Nurse> nurses= new ArrayList<>();
+    public static List<BloodTransfusion> bloodTransfusions=new ArrayList<>();
+    public static List<MedicalExamination> medicalExaminations=new ArrayList<>();
+    public static List<Ultrasound> ultrasounds=new ArrayList<>();
+    public static List<Vaccine> vaccines=new ArrayList<>();
+    public static FileWriter fileWriter;
 
     private MedicalOffice() {
         this.adress = "Splaiul Independentei 321B bloc D13 apartament 3";
