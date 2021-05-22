@@ -1,5 +1,5 @@
 package person.enums_and_salary;
 
-public interface Salary {
+public interface Employee {
     int salary();
 }

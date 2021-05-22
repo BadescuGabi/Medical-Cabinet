@@ -3,24 +3,24 @@ package person.type;
 import org.jetbrains.annotations.NotNull;
 import person.enums_and_salary.Gender;
 import person.Person;
-import person.enums_and_salary.Salary;
+import person.enums_and_salary.Employee;
 import person.enums_and_salary.Specialization;
 
 import java.util.Comparator;
 import java.util.Objects;
 import java.util.Scanner;
 
-public class Doctor extends Person implements Salary, Comparable<Doctor> {
+public class Doctor extends Person implements Employee, Comparable<Doctor> {
     private int exp;
     private Specialization spec;
     private int salaryPerMonth;
 
-    public Doctor(String name, int age, Gender gender,int id, int exp, Specialization spec) {
-        super(name, age, gender,id);
+    public Doctor(String name, int age, Gender gender, int id, int exp, Specialization spec) {
+        super(name, age, gender, id);
         this.exp = exp;
         this.spec = spec;
         this.salary();
-        this.id=id;
+        this.id = id;
     }
 
     public Doctor() {
@@ -30,7 +30,7 @@ public class Doctor extends Person implements Salary, Comparable<Doctor> {
         this.exp = in.nextInt();
         System.out.println("\nSpecialization (RADIOLOGIST/BLOOD_ANALYSIS/CONSULTANT");
         String s = in.next();
-        this.spec= Specialization.valueOf(s.toUpperCase());
+        this.spec = Specialization.valueOf(s.toUpperCase());
         this.salary();
     }
 
@@ -53,7 +53,7 @@ public class Doctor extends Person implements Salary, Comparable<Doctor> {
     public int getSalaryPerMonth() {
         return salaryPerMonth;
     }
-    
+
     @Override
     public int salary() {
         if (spec.equals(Specialization.RADIOLOGIST)) {

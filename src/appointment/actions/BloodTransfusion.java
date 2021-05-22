@@ -10,8 +10,7 @@ import java.text.ParseException;
 import java.util.Objects;
 import java.util.Scanner;
 
-import static medical_office.MedicalOffice.bloodStock;
-import static medical_office.MedicalOffice.persons;
+import static medical_office.MedicalOffice.*;
 
 public class BloodTransfusion extends Appointment {
     private Nurse nurse;
@@ -23,14 +22,16 @@ public class BloodTransfusion extends Appointment {
 
     public BloodTransfusion() throws ParseException {
         System.out.println("\nChoose nurse by corresponding index:\n");
-        for (int i = 0; i < persons.size(); i++) {
-            if (persons.get(i).getClass() == Nurse.class) {
-                System.out.println(i + ":\n" + ((Nurse) persons.get(i)).toString());
-            }
-        }
+        for (int i = 0; i < nurses.size(); i++)
+            System.out.println(nurses.get(i).getId() + ":\n" + (nurses.get(i)).toString());
         Scanner in = new Scanner(System.in);
         int op = in.nextInt();
-        setNurse((Nurse) persons.get(op));
+        for (int i = 0; i < nurses.size(); i++)
+            if (nurses.get(i).getId() == op) {
+                nurse = nurses.get(i);
+                break;
+            }
+
         System.out.println("\ndonnation/receive?");
         String s ="";
         s=in.next();
@@ -118,6 +119,6 @@ public class BloodTransfusion extends Appointment {
             bloodStock.put(BloodGroup.AB, (bloodStock.get(BloodGroup.AB) - 0.5));
         }
     }
-    /* todo vezi si abstract factory pattern si try catch pt receive*/
+
 }
 

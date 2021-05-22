@@ -1,0 +1,9 @@
+Timestamp,action name,type of object2021-05-19 20:12:37.959,Read,doctor
+
+2021-05-23 00:04:37.778,Read,doctor
+2021-05-23 00:04:37.829,Read,patient
+2021-05-23 00:04:37.829,Read,nurse
+2021-05-23 00:04:37.829,Read,bloodtransfusion
+2021-05-23 00:04:37.837,Read,medicalexamination
+2021-05-23 00:04:37.837,Read,ultrasound
+2021-05-23 00:04:37.837,Read,vaccine

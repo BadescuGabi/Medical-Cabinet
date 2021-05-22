@@ -1,4 +1,4 @@
-package menu;
+package services;
 
 import appointment.actions.BloodTransfusion;
 import appointment.actions.MedicalExamination;
@@ -10,25 +10,26 @@ import person.enums_and_salary.Specialization;
 import person.type.Doctor;
 import person.type.Nurse;
 import person.type.Patient;
+
 import static medical_office.MedicalOffice.*;
+import static services.AuditService.writeToAudit;
+
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.io.*;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.List;
 
-public final class Service {
+public final class ServiceCSV {
 
-    private static Service service;
+    private static ServiceCSV service;
     public static FileWriter fileWriter;
 
-    private Service() {
+    private ServiceCSV() {
     }
 
-    public static Service getInstance() {
+    public static ServiceCSV getInstance() {
         if (service == null) {
-            service = new Service();
+            service = new ServiceCSV();
         }
 
         return service;
@@ -75,7 +76,7 @@ public final class Service {
                 Patient patientF = null;
                 for (Patient patient : patients)
                     if (patient.getId() == id)
-                        patientF = new Patient(patient.getName(),patient.getAge(),patient.getGender(),patient.getId(),patient.getBloodGroup(),patient.getHeight(),patient.getWeight(),patient.getDonate());
+                        patientF = new Patient(patient.getName(), patient.getAge(), patient.getGender(), patient.getId(), patient.getBloodGroup(), patient.getHeight(), patient.getWeight(), patient.getDonate());
                 id = Integer.parseInt(data[2]);
                 Doctor doctorF = null;
                 for (Doctor doctor : doctors)
@@ -113,7 +114,7 @@ public final class Service {
             }
         }
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        writeToAudit(timestamp.toString(), "Read");
+        writeToAudit(timestamp.toString(), "Read", option);
         csvReader.close();
         return obj;
     }
@@ -121,24 +122,6 @@ public final class Service {
     public static <T> void writeToCSV(T object, String path) throws IOException {
         File file = new File(path);
         if (file.isFile()) {
-            if (file.length() <= 1) {
-//                FileWriter csvWriter = new FileWriter(path, true);
-//                if (object.getClass().getSimpleName().toLowerCase() == "doctor")
-//                    csvWriter.append("Name.age,gender,specialization,experience,id\n");
-//                if (object.getClass().getSimpleName().toLowerCase() == "patient")
-//                    csvWriter.append("Name.age,gender,bloodgroup,height,weight,donate,id\n");
-//                if (object.getClass().getSimpleName().toLowerCase() == "nurse")
-//                    csvWriter.append("Name.age,gender,experience,id\n");
-//                if (object.getClass().getSimpleName().toLowerCase() == "bloodtransfusion")
-//                    csvWriter.append("date,patient_id,doctor_id,duration,nurse_id\n");
-//                if (object.getClass().getSimpleName().toLowerCase() == "medicalexamination")
-//                    csvWriter.append("date,patient_id,doctor_id,price,duration,description\n");
-//                if (object.getClass().getSimpleName().toLowerCase() == "ultrasound")
-//                    csvWriter.append("date,patient_id,doctor_id,price,duration,referral\n");
-//                if (object.getClass().getSimpleName().toLowerCase() == "vaccine")
-//                    csvWriter.append("date,patient_id,doctor_id,covidantibody\n");
-//                csvWriter.close();
-            }
             FileWriter csvWriter = new FileWriter(path, true);
             if (object.getClass().getSimpleName().equalsIgnoreCase("doctor")) {
                 Doctor d = (Doctor) object;
@@ -148,9 +131,9 @@ public final class Service {
                 csvWriter.append(",");
                 csvWriter.append(d.getGender().toString());
                 csvWriter.append(",");
-                csvWriter.append(d.getSpec().toString());
-                csvWriter.append(",");
                 csvWriter.append(String.valueOf(d.getExp()));
+                csvWriter.append(",");
+                csvWriter.append(d.getSpec().toString());
                 csvWriter.append(",");
                 csvWriter.append(String.valueOf(d.getId()));
                 csvWriter.append("\n");
@@ -200,6 +183,7 @@ public final class Service {
                 csvWriter.append(String.valueOf(d.getNurse().getId()));
                 csvWriter.append("\n");
             }
+            System.out.println(object.getClass().getSimpleName());
             if (object.getClass().getSimpleName().equalsIgnoreCase("medicalexamination")) {
                 MedicalExamination d = (MedicalExamination) object;
                 csvWriter.append(String.valueOf(d.getDate()));
@@ -242,20 +226,10 @@ public final class Service {
                 csvWriter.append("\n");
             }
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-            writeToAudit(timestamp.toString(),"Write");
+            writeToAudit(timestamp.toString(), "Write", object.getClass().getSimpleName());
             csvWriter.close();
+
         }
     }
-    public static void writeToAudit(String timestamp, String option) throws IOException{
-        File file = new File("src/audit.csv");
-        if (file.isFile()) {
-            if (file.length() <= 1) {
-                FileWriter csvWriter = new FileWriter("src/audit.csv", true);
-                csvWriter.append("Timestamp,action name\n");
-                csvWriter.close();
-            }
-            FileWriter csvWriter = new FileWriter("src/audit.csv", true);
-            csvWriter.append(timestamp  + "," + option + "\n");
-            csvWriter.close();
-        }
-}}
+
+}

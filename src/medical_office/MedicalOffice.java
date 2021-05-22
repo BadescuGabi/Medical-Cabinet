@@ -19,11 +19,10 @@ public final class MedicalOffice {
     private static MedicalOffice INSTANCE;
     private final String adress;
     private final String name;
-    public static List<Patient> vaccinatedPatients = new ArrayList<>(); /*todo*get list of vaccinated pacients*/
+    public static List<Patient> vaccinatedPatients = new ArrayList<>();
     public static HashMap<BloodGroup, Double> bloodStock = new HashMap<>();
     public static List<Appointment> appointments = new ArrayList<>();
-    //public SortedSet<Doctor> doctors= new TreeSet<>();
-    //public SortedSet<Nurse> nurses=new TreeSet<>();
+
     public static List<Person> persons = new ArrayList<>();
     public static List<Doctor> doctors=new ArrayList<>();
     public static List<Patient> patients=new ArrayList<>();

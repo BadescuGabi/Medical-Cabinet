@@ -10,9 +10,10 @@ public abstract class Person {
     protected String name;
     protected int age;
     protected Gender gender;
-    private static int count=0;
+    private static int count = 0;
     protected int id;
-    public Person(String name, int age, Gender gender,int id) {
+
+    public Person(String name, int age, Gender gender, int id) {
         this.name = name;
         this.age = age;
         this.gender = gender;
@@ -28,7 +29,7 @@ public abstract class Person {
         String s = in.next();
         this.gender = Gender.valueOf(s.toUpperCase());
         count++;
-        this.id=count;
+        this.id = count;
     }
 
     public static int getCount() {

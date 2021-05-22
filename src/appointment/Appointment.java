@@ -9,17 +9,17 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.Scanner;
 
-import static medical_office.MedicalOffice.persons;
+import static medical_office.MedicalOffice.*;
 
 public abstract class Appointment {
-    protected Date date;
+    protected String date;
     protected Patient patient;
     protected Doctor doctor;
     protected int price;
     protected int duration;
 
-    public Appointment(String date, Patient patient, Doctor doctor, int price, int duration) throws ParseException { //
-        this.date = new SimpleDateFormat("dd-MM-yyyy").parse(date);
+    public Appointment(String date, Patient patient, Doctor doctor, int price, int duration) throws ParseException {
+        this.date = date;
         this.patient = patient;
         this.doctor = doctor;
         this.duration = duration;
@@ -30,7 +30,7 @@ public abstract class Appointment {
         Scanner in = new Scanner(System.in);
         System.out.println("\nDate and hour (dd-MM-yyyy): ");
         String s = in.nextLine();
-        this.date = new SimpleDateFormat("dd-MM-yyyy").parse(s);
+        this.date = s;
         System.out.println("\nAdd new oatient or existing one ?(1/2)");
         int op;
         op = in.nextInt();
@@ -39,28 +39,30 @@ public abstract class Appointment {
         }
         if (op == 2) {
             System.out.println("\nChoose patient by corresponding index:\n");
-            for (int i = 0; i < persons.size(); i++) {
-                if (persons.get(i).getClass() == Patient.class) {
-                    System.out.println(i + ":\n" + ((Patient) persons.get(i)).toString());
-                }
-            }
+            for (int i = 0; i < patients.size(); i++)
+                System.out.println(patients.get(i).getId() + ":\n" + (patients.get(i)).toString());
             op = in.nextInt();
-            setPatient((Patient) persons.get(op));
-        }
-        System.out.println("\nChoose doctor by corresponding index:\n");
-        for (int i = 0; i < persons.size(); i++) {
-            if (persons.get(i).getClass() == Doctor.class) {
-                System.out.println(i + ":\n" + ((Doctor) persons.get(i)).toString());
-            }
-        }
-        op = in.nextInt();
-        setDoctor((Doctor) persons.get(op));
-        System.out.println("\nDuration (minutes) ");
-        this.duration = in.nextInt();
+            for (int i = 0; i < patients.size(); i++)
+                if (patients.get(i).getId() == op) {
+                    patient = patients.get(i);
+                    break;
+                }
+            System.out.println("\nChoose doctor by corresponding index:\n");
+            for (int i = 0; i < doctors.size(); i++)
+                System.out.println(doctors.get(i).getId() + ":\n" + (doctors.get(i)).toString());
+            op = in.nextInt();
+            for (int i = 0; i < doctors.size(); i++)
+                if (doctors.get(i).getId() == op) {
+                    doctor = doctors.get(i);
+                    break;
+                }
+            System.out.println("\nDuration (minutes) ");
+            this.duration = in.nextInt();
 
+        }
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
@@ -73,7 +75,7 @@ public abstract class Appointment {
         return this;
     }
 
-    public Appointment setDate(Date date) {
+    public Appointment setDate(String date) {
         this.date = date;
         return this;
     }

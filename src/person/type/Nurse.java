@@ -2,21 +2,21 @@ package person.type;
 
 import person.enums_and_salary.Gender;
 import person.Person;
-import person.enums_and_salary.Salary;
+import person.enums_and_salary.Employee;
 
 
 import java.util.Objects;
 import java.util.Scanner;
 
-public class Nurse extends Person implements Salary {
+public class Nurse extends Person implements Employee {
     private int exp;
     private int salaryPerMonth;
 
-    public Nurse(String name, int age, Gender gender,int id, int exp) {
-        super(name, age, gender,id);
+    public Nurse(String name, int age, Gender gender, int id, int exp) {
+        super(name, age, gender, id);
         this.exp = exp;
         this.salary();
-        this.id=id;
+        this.id = id;
     }
 
     public Nurse() {

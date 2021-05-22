@@ -66,7 +66,7 @@ public class MedicalExamination extends Appointment {
     }
 
     public Pair<String, Double> calculateBMI() {
-        Double BMI = patient.getWeight() - Math.pow(patient.getHeight() / 100, 2);
+        Double BMI = patient.getWeight() / Math.pow(patient.getHeight()/100  , 2);
         String info = "";
         if (BMI < 15 && patient.getGender().equals("MALE") || (BMI < 19 && patient.getGender().equals("FEMALE"))) {
             info = "excelent";
