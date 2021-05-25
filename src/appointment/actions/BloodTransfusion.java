@@ -14,10 +14,25 @@ import static medical_office.MedicalOffice.*;
 
 public class BloodTransfusion extends Appointment {
     private Nurse nurse;
-
+    private static int count=100;
+    private int id;
     public BloodTransfusion(String date, Patient patient, Doctor doctor,  int duration, Nurse nurse) throws ParseException {
         super(date, patient, doctor,0, duration);
         this.nurse = nurse;
+        this.id=count;
+        count++;
+    }
+
+    public BloodTransfusion(String date, Patient patient, Doctor doctor, int duration, Nurse nurse, int id) throws ParseException {
+        super(date, patient, doctor, 0, duration);
+        this.nurse = nurse;
+        this.id = id;
+    }
+
+    public BloodTransfusion(String date,int patientId,int doctorId,int duration,int nurseId,int id){
+        super(date,patientId,doctorId,duration);
+        this.nurseId=nurseId;
+        this.id=id;
     }
 
     public BloodTransfusion() throws ParseException {
@@ -43,6 +58,8 @@ public class BloodTransfusion extends Appointment {
         }
     }
 
+
+
     public Nurse getNurse() {
         return nurse;
     }
@@ -58,12 +75,12 @@ public class BloodTransfusion extends Appointment {
         if (!(o instanceof BloodTransfusion)) return false;
         if (!super.equals(o)) return false;
         BloodTransfusion that = (BloodTransfusion) o;
-        return Objects.equals(nurse, that.nurse);
+        return id == that.id && Objects.equals(nurse, that.nurse);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), nurse);
+        return Objects.hash(super.hashCode(), nurse, id);
     }
 
     @Override

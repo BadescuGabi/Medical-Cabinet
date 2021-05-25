@@ -17,7 +17,16 @@ public abstract class Appointment {
     protected Doctor doctor;
     protected int price;
     protected int duration;
+    protected int patientId;
+    protected int nurseId;
+    protected int doctorId; //pentru baza de date
 
+    public Appointment(String date,int patientId,int doctorId,int duration){
+        this.date=date;
+        this.patientId=patientId;
+        this.doctorId=doctorId;
+        this.duration=duration;
+    }
     public Appointment(String date, Patient patient, Doctor doctor, int price, int duration) throws ParseException {
         this.date = date;
         this.patient = patient;
@@ -66,6 +75,18 @@ public abstract class Appointment {
         return date;
     }
 
+    public int getPatientId() {
+        return patientId;
+    }
+
+    public int getNurseId() {
+        return nurseId;
+    }
+
+    public int getDoctorId() {
+        return doctorId;
+    }
+
     public int getDuration() {
         return duration;
     }
@@ -101,14 +122,14 @@ public abstract class Appointment {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Appointment)) return false;
         Appointment that = (Appointment) o;
-        return price == that.price && duration == that.duration && Objects.equals(date, that.date) && Objects.equals(patient, that.patient) && Objects.equals(doctor, that.doctor);
+        return price == that.price && duration == that.duration && patientId == that.patientId && nurseId == that.nurseId && doctorId == that.doctorId && Objects.equals(date, that.date) && Objects.equals(patient, that.patient) && Objects.equals(doctor, that.doctor);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(date, patient, doctor, price, duration);
+        return Objects.hash(date, patient, doctor, price, duration, patientId, nurseId, doctorId);
     }
 
     @Override
